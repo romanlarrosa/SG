@@ -9,7 +9,7 @@ class MyCone extends THREE.Object3D {
       // Un Mesh se compone de geometría y material
       var coneGeom = new THREE.ConeGeometry(1,1,3);
       // Como material se crea uno a partir de un color
-      var coneMat = new THREE.MeshPhongMaterial({color: 0xCF0000});
+      var coneMat = new THREE.MeshPhongMaterial({color:  0xcccccc});
       
       // Ya podemos construir el Mesh
       this.cone = new THREE.Mesh (coneGeom, coneMat);
