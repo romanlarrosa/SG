@@ -1,4 +1,4 @@
-class MyCone extends THREE.Object3D {
+class MyIcosah extends THREE.Object3D {
     constructor(gui,titleGui) {
       super();
       
@@ -7,16 +7,16 @@ class MyCone extends THREE.Object3D {
       this.createGUI(gui,titleGui);
       
       // Un Mesh se compone de geometría y material
-      var coneGeom = new THREE.ConeGeometry(1,1,3);
+      var Geom = new THREE.IcosahedronGeometry(1,0);
       // Como material se crea uno a partir de un color
-      var coneMat = new THREE.MeshNormalMaterial();
-      coneMat.flatShading = true;
-      coneMat.needsUpdate = true;
+      var Mat = new THREE.MeshNormalMaterial();
+      Mat.flatShading = true;
+      Mat.needsUpdate = true;
       
       // Ya podemos construir el Mesh
-      this.cone = new THREE.Mesh (coneGeom, coneMat);
+      this.icosah = new THREE.Mesh (Geom, Mat);
       // Y añadirlo como hijo del Object3D (el this)
-      this.add (this.cone);
+      this.add (this.icosah);
       
       // Las geometrías se crean centradas en el origen.
       // Como queremos que el sistema de referencia esté en la base,
@@ -29,15 +29,14 @@ class MyCone extends THREE.Object3D {
        // Controles para el tamaño, la orientación y la posición de la caja
     this.guiControls = new function () {
         this.radio = 1.0;
-        this.altura = 1.0;
-        this.numSegmentos = 3.0;
+        this.detalle = 0.0;
+        
         
         // Un botón para dejarlo todo en su posición inicial
         // Cuando se pulse se ejecutará esta función.
         this.reset = function () {
             this.radio = 1.0;
-            this.altura = 1.0;
-            this.numSegmentos = 3.0;
+            this.detalle = 0.0;
           
         }
       } 
@@ -48,12 +47,10 @@ class MyCone extends THREE.Object3D {
     // Estas lineas son las que añaden los componentes de la interfaz
     // Las tres cifras indican un valor mínimo, un máximo y el incremento
     // El método   listen()   permite que si se cambia el valor de la variable en código, el deslizador de la interfaz se actualice
-    folder.add (this.guiControls, 'radio', 0.1, 5.0, 0.1).name ('Radio : ').listen().onChange(function (value) {
-         that.cone.geometry = new THREE.ConeGeometry(value, that.guiControls.altura, that.guiControls.numSegmentos); });
-    folder.add (this.guiControls, 'altura', 0.1, 5.0, 0.1).name ('Altura : ').listen().onChange(function (value) {
-        that.cone.geometry = new THREE.ConeGeometry(that.guiControls.radio, value, that.guiControls.numSegmentos); });
-    folder.add (this.guiControls, 'numSegmentos', 3.0, 15.0, 1.0).name ('N Segmentos : ').listen().onChange(function (value) {
-        that.cone.geometry = new THREE.ConeGeometry(that.guiControls.radio, that.guiControls.altura, value); });
+    folder.add (this.guiControls, 'radio', 1.0, 5.0, 0.1).name ('Radio : ').listen().onChange(function (value) {
+         that.icosah.geometry = new THREE.IcosahedronGeometry(value, that.guiControls.detalle); });
+    folder.add (this.guiControls, 'detalle', 0.0, 5.0, 1.0).name ('Detalle : ').listen().onChange(function (value) {
+        that.icosah.geometry = new THREE.IcosahedronGeometry(that.guiControls.radio, value); });
     
     folder.add (this.guiControls, 'reset').name ('[ Reset ]');
     }

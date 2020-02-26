@@ -9,7 +9,10 @@ class MyCylinder extends THREE.Object3D {
       // Un Mesh se compone de geometría y material
       var cylinderGeom = new THREE.CylinderGeometry(1,1, 1,3);
       // Como material se crea uno a partir de un color
-      var cylinderMat = new THREE.MeshPhongMaterial({color:  0xcccccc});
+      var cylinderMat = new THREE.MeshNormalMaterial();
+      cylinderMat.flatShading = true;
+      cylinderMat.needsUpdate = true;
+      
       
       // Ya podemos construir el Mesh
       this.cilindro = new THREE.Mesh (cylinderGeom, cylinderMat);

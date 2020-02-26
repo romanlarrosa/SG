@@ -65,12 +65,27 @@ class MyScene extends THREE.Scene {
     
     this.ejesEsfera = new THREE.AxesHelper(3);
     this.esfera = new MySphere(this.gui, "Controles esfera");
-    
-    
     this.ejesEsfera.add(this.esfera);
     this.add (this.ejesEsfera);
 
     this.ejesEsfera.position.set(-10, 0, 0);
+
+    //TORUS
+    this.ejesTorus = new THREE.AxesHelper(3);
+    this.torus = new MyTorus(this.gui, "Controles toro");
+    this.ejesTorus.add(this.torus);
+    this.add (this.ejesTorus);
+
+    this.ejesTorus.position.set(-0, 0, 0);
+
+    //ICOSAEDRO
+    this.ejesIcosa = new THREE.AxesHelper(3);
+    this.icosa = new MyIcosah(this.gui, "Controles icosaedro");
+    this.ejesIcosa.add(this.icosa);
+    this.add (this.ejesIcosa);
+
+    this.ejesIcosa.position.set(10, 0, 0);
+    
     
   }
   
@@ -203,7 +218,8 @@ class MyScene extends THREE.Scene {
     this.cono.update();
     this.cilindro.update();
     this.esfera.update();
-    
+    this.torus.update();
+    this.icosa.update();
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
   }

@@ -1,4 +1,4 @@
-class MyCone extends THREE.Object3D {
+class MyTorus extends THREE.Object3D {
     constructor(gui,titleGui) {
       super();
       
@@ -7,16 +7,17 @@ class MyCone extends THREE.Object3D {
       this.createGUI(gui,titleGui);
       
       // Un Mesh se compone de geometría y material
-      var coneGeom = new THREE.ConeGeometry(1,1,3);
+      var Geom = new THREE.TorusGeometry(1, 0.2, 3, 3);
       // Como material se crea uno a partir de un color
-      var coneMat = new THREE.MeshNormalMaterial();
-      coneMat.flatShading = true;
-      coneMat.needsUpdate = true;
+      var Mat = new THREE.MeshNormalMaterial();
+      Mat.flatShading = true;
+      Mat.needsUpdate = true;
+      
       
       // Ya podemos construir el Mesh
-      this.cone = new THREE.Mesh (coneGeom, coneMat);
+      this.toro = new THREE.Mesh (Geom, Mat);
       // Y añadirlo como hijo del Object3D (el this)
-      this.add (this.cone);
+      this.add (this.toro);
       
       // Las geometrías se crean centradas en el origen.
       // Como queremos que el sistema de referencia esté en la base,
@@ -29,15 +30,18 @@ class MyCone extends THREE.Object3D {
        // Controles para el tamaño, la orientación y la posición de la caja
     this.guiControls = new function () {
         this.radio = 1.0;
-        this.altura = 1.0;
-        this.numSegmentos = 3.0;
+        this.radioTubo = 0.2;
+        this.resolucionToro = 3.0;
+        this.resolucionTubo = 3.0;
         
         // Un botón para dejarlo todo en su posición inicial
         // Cuando se pulse se ejecutará esta función.
         this.reset = function () {
             this.radio = 1.0;
-            this.altura = 1.0;
-            this.numSegmentos = 3.0;
+            this.radioTubo = 0.2;
+            this.resolucionToro = 3.0;
+            this.resolucionTubo = 3.0;
+        
           
         }
       } 
@@ -45,17 +49,25 @@ class MyCone extends THREE.Object3D {
       // Se crea una sección para los controles de la caja
     var folder = gui.addFolder (titleGui);
     var that = this;
+    
     // Estas lineas son las que añaden los componentes de la interfaz
     // Las tres cifras indican un valor mínimo, un máximo y el incremento
     // El método   listen()   permite que si se cambia el valor de la variable en código, el deslizador de la interfaz se actualice
-    folder.add (this.guiControls, 'radio', 0.1, 5.0, 0.1).name ('Radio : ').listen().onChange(function (value) {
-         that.cone.geometry = new THREE.ConeGeometry(value, that.guiControls.altura, that.guiControls.numSegmentos); });
-    folder.add (this.guiControls, 'altura', 0.1, 5.0, 0.1).name ('Altura : ').listen().onChange(function (value) {
-        that.cone.geometry = new THREE.ConeGeometry(that.guiControls.radio, value, that.guiControls.numSegmentos); });
-    folder.add (this.guiControls, 'numSegmentos', 3.0, 15.0, 1.0).name ('N Segmentos : ').listen().onChange(function (value) {
-        that.cone.geometry = new THREE.ConeGeometry(that.guiControls.radio, that.guiControls.altura, value); });
+    folder.add (this.guiControls, 'radio', 1.0, 30.0, 0.1).name ('Radio : ').listen().onChange(function (value) {
+         that.toro.geometry = new THREE.TorusGeometry(that.guiControls.radio, that.guiControls.radioTubo, that.guiControls.resolucionToro, that.guiControls.resolucionTubo); });
+    
+    folder.add (this.guiControls, 'radioTubo', 0.2, 30.0, 0.1).name ('Radio Tubo : ').listen().onChange(function (value) {
+         that.toro.geometry = new THREE.TorusGeometry(that.guiControls.radio, that.guiControls.radioTubo, that.guiControls.resolucionToro, that.guiControls.resolucionTubo); });
+         
+    folder.add (this.guiControls, 'resolucionToro', 3.0, 30.0, 1.0).name ('Res. Toro : ').listen().onChange(function (value) {
+         that.toro.geometry = new THREE.TorusGeometry(that.guiControls.radio, that.guiControls.radioTubo, that.guiControls.resolucionToro, that.guiControls.resolucionTubo); });
+
+    folder.add (this.guiControls, 'resolucionTubo', 3.0, 30.0, 1.0).name ('Res. Tubo : ').listen().onChange(function (value) {
+         that.toro.geometry = new THREE.TorusGeometry(that.guiControls.radio, that.guiControls.radioTubo, that.guiControls.resolucionToro, that.guiControls.resolucionTubo); });
+
     
     folder.add (this.guiControls, 'reset').name ('[ Reset ]');
+    
     }
     
     update () {

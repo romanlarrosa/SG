@@ -9,7 +9,9 @@ class MySphere extends THREE.Object3D {
       // Un Mesh se compone de geometría y material
       var Geom = new THREE.SphereGeometry(1,3,2);
       // Como material se crea uno a partir de un color
-      var Mat = new THREE.MeshPhongMaterial({color:  0xcccccc});
+      var Mat = new THREE.MeshNormalMaterial();
+      Mat.flatShading = true;
+      Mat.needsUpdate = true;
       
       // Ya podemos construir el Mesh
       this.esfera = new THREE.Mesh (Geom, Mat);
