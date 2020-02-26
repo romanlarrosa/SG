@@ -33,9 +33,11 @@ class MyScene extends THREE.Scene {
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     //Ademas creamos unos ejes auxiliares para la caja
+
+    //CAJA
+
     this.ejesCaja = new THREE.AxesHelper(3);
     this.model = new MyBox(this.gui, "Controles de la Caja");
-
     //Añadimos la caja a los ejes auxiliares, y los ejes auxiliares con la caja, a la escena
     this.ejesCaja.add(this.model);
     this.add (this.ejesCaja);
@@ -48,6 +50,28 @@ class MyScene extends THREE.Scene {
     this.cono = new MyCone(this.gui, "Controles cono");
     this.ejesCono.add(this.cono);
     this.add (this.ejesCono);
+
+    this.ejesCono.position.set(0, 10, 0);
+
+    //CILINDRO
+    this.ejesCilindro = new THREE.AxesHelper(3);
+    this.cilindro = new MyCylinder(this.gui, "Controles cilindro");
+    this.ejesCilindro.add(this.cilindro);
+    this.add (this.ejesCilindro);
+
+    this.ejesCilindro.position.set(10, 10, 0);
+
+    //ESFERA
+    
+    this.ejesEsfera = new THREE.AxesHelper(3);
+    this.esfera = new MySphere(this.gui, "Controles esfera");
+    
+    
+    this.ejesEsfera.add(this.esfera);
+    this.add (this.ejesEsfera);
+
+    this.ejesEsfera.position.set(-10, 0, 0);
+    
   }
   
   createCamera () {
@@ -71,27 +95,6 @@ class MyScene extends THREE.Scene {
     this.cameraControl.panSpeed = 0.5;
     // Debe orbitar con respecto al punto de mira de la cámara
     this.cameraControl.target = look;
-  }
-  
-  createGround () {
-    // El suelo es un Mesh, necesita una geometría y un material.
-    
-    // La geometría es una caja con muy poca altura
-    var geometryGround = new THREE.BoxGeometry (50,0.2,50);
-    
-    // El material se hará con una textura de madera
-    var texture = new THREE.TextureLoader().load('../imgs/wood.jpg');
-    var materialGround = new THREE.MeshPhongMaterial ({map: texture});
-    
-    // Ya se puede construir el Mesh
-    var ground = new THREE.Mesh (geometryGround, materialGround);
-    
-    // Todas las figuras se crean centradas en el origen.
-    // El suelo lo bajamos la mitad de su altura para que el origen del mundo se quede en su lado superior
-    ground.position.y = -0.1;
-    
-    // Que no se nos olvide añadirlo a la escena, que en este caso es  this
-    this.add (ground);
   }
   
   createGUI () {
@@ -198,6 +201,8 @@ class MyScene extends THREE.Scene {
     // Se actualiza el resto del modelo
     this.model.update();
     this.cono.update();
+    this.cilindro.update();
+    this.esfera.update();
     
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
