@@ -36,10 +36,46 @@ class MyScene extends THREE.Scene {
     
     
     // Por último creamos el modelo.
-    // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
-    // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
-    //Ademas creamos unos ejes auxiliares para la caja
+    //Generamos el vector de puntos para el perfil del peon.
+    this.puntos = [];
+    this.generarPuntos();
+    
 
+    //Creamos la linea para visualizar el perfil
+    this.lineGeometry = new THREE.Geometry();
+    this.lineGeometry.vertices = this.puntos;
+    this.lineMaterial = new THREE.LineBasicMaterial({color: 0x0000ff});
+    //Creamos la linea con sus ejes
+    this.line = new THREE.Line(this.lineGeometry, this.lineMaterial);
+    this.line.position.set(0, 2, 0);
+    this.ejesLinea = new THREE.AxisHelper(4);
+    this.ejesLinea.add(this.line);
+
+    //Ubicamos la linea en el modelo y la movemos
+    this.add(this.ejesLinea);
+    this.ejesLinea.position.set(-5, 0, 0);
+
+    //Añadimos el objeto 1
+    this.peon = new ObjRevol(this.gui, "Controles Peon", this.puntos, this.Mat);
+    this.add(this.peon);
+    
+
+  }
+
+  generarPuntos(){
+    this.puntos.push(new THREE.Vector3(0.0, -1.4, 0.0));
+    this.puntos.push(new THREE.Vector3(1.0, -1.4, 0.0));
+    this.puntos.push(new THREE.Vector3(1.0, -1.1, 0.0));
+    this.puntos.push(new THREE.Vector3(0.5, -0.7, 0.0));
+    this.puntos.push(new THREE.Vector3(0.4, -0.4, 0.0));
+    this.puntos.push(new THREE.Vector3(0.4, 0.5, 0.0));
+    this.puntos.push(new THREE.Vector3(0.5, 0.6, 0.0));
+    this.puntos.push(new THREE.Vector3(0.3, 0.6, 0.0));
+    this.puntos.push(new THREE.Vector3(0.5, 0.8, 0.0));
+    this.puntos.push(new THREE.Vector3(0.55, 1.0, 0.0));
+    this.puntos.push(new THREE.Vector3(0.5, 1.2, 0.0));
+    this.puntos.push(new THREE.Vector3(0.3, 1.4, 0.0));
+    this.puntos.push(new THREE.Vector3(0.0, 1.4, 0.0));
   }
   
   createCamera () {
@@ -174,16 +210,12 @@ class MyScene extends THREE.Scene {
     // Se actualiza la posición de la cámara según su controlador
     this.cameraControl.update();
     
-    // Se actualiza el resto del modelo
-    
-
-    //Sombreado
-    
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
   }
 
 }
+
 
 /// La función   main
 $(function () {
