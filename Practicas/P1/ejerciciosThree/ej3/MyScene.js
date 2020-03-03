@@ -56,9 +56,21 @@ class MyScene extends THREE.Scene {
     this.ejesLinea.position.set(-5, 0, 0);
 
     //Añadimos el objeto 1
-    this.peon = new ObjRevol(this.gui, "Controles Peon", this.puntos, this.Mat);
-    this.add(this.peon);
-    
+    this.peon1 = new ObjRevol(this.gui, "Controles Peon", this.puntos, this.Mat);
+    this.ejesPeon1 = new THREE.AxisHelper(4);
+    this.ejesPeon1.add(this.peon1);
+
+    //Ubicamos la linea en el modelo y la movemos
+    this.add(this.ejesPeon1);
+
+    //Añadimos el peon2 (Solo cambia la resolucion)
+    this.peon2 = new ObjRevol(this.gui, "Controles Peon2", this.puntos, this.Mat);
+    this.ejesPeon2 = new THREE.AxisHelper(4);
+    this.ejesPeon2.add(this.peon2);
+
+    //Ubicamos la linea en el modelo y la movemos
+    this.add(this.ejesPeon2);
+    this.ejesPeon2.position.set(5, 0, 0);
 
   }
 
@@ -113,6 +125,8 @@ class MyScene extends THREE.Scene {
       this.lightIntensity = 0.5;
       this.axisOnOff = true;
       this.sombreado = true;
+      this.resolucion = 3;
+      this.angulo = 1.0;
     }
 
     // Se crea una sección para los controles de esta clase
@@ -126,6 +140,14 @@ class MyScene extends THREE.Scene {
     
     // Y otro para mostrar u ocultar los ejes
     folder.add (this.guiControls, 'axisOnOff').name ('Mostrar ejes : ');
+
+    var folder1 = gui.addFolder('Parametros Revolución');
+    folder1.add (this.guiControls, 'resolucion', 3, 15, 1.0).name(' Resolucion : ').listen().onChange(function(value) {
+      //Cambian las dos resoluciones
+      var Geom = new THREE.LatheGeometry(_puntos, that.guiControls.resolucion, 0, that.guiControls.angulo);
+      that.peon1.Obj.geometry = Geom;
+    });
+    folder1.add (this.guiControls, 'angulo', 1, 2*Math.PI, 0.1).name(' Ángulo : ').listen();
     
     return gui;
   }
