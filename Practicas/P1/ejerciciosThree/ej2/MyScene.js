@@ -27,6 +27,8 @@ class MyScene extends THREE.Scene {
     // Y unos ejes. Imprescindibles para orientarnos sobre dónde están las cosas
     this.axis = new THREE.AxesHelper (10);
     this.add (this.axis);
+
+    
     
     
     // Por último creamos el modelo.
@@ -123,9 +125,13 @@ class MyScene extends THREE.Scene {
       // En el contexto de una función   this   alude a la función
       this.lightIntensity = 0.5;
       this.axisOnOff = true;
+      this.sombreado = function (){
+        cambiarSombreado();
+      }
     }
 
     // Se crea una sección para los controles de esta clase
+  
     var folder = gui.addFolder ('Luz y Ejes');
     
     // Se le añade un control para la intensidad de la luz
@@ -133,6 +139,8 @@ class MyScene extends THREE.Scene {
     
     // Y otro para mostrar u ocultar los ejes
     folder.add (this.guiControls, 'axisOnOff').name ('Mostrar ejes : ');
+
+    folder.add (this.guiControls, 'sombreado').name ('[ Cambiar Sombreado ]');
     
     return gui;
   }
@@ -222,6 +230,15 @@ class MyScene extends THREE.Scene {
     this.icosa.update();
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
+  }
+
+  cambiarSombreado() {
+    this.model.material.flatShading = !this.model.material.flatShading;
+    this.cono.material.flatShading = !this.model.material.flatShading;
+    this.cilindro.material.flatShading = !this.model.material.flatShading;
+    this.esfera.material.flatShading = !this.model.material.flatShading;
+    this.torus.material.flatShading = !this.model.material.flatShading;
+    this.icosa.material.flatShading = !this.model.material.flatShading;
   }
 }
 

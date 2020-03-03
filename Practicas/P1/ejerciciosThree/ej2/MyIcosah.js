@@ -1,5 +1,5 @@
 class MyIcosah extends THREE.Object3D {
-    constructor(gui,titleGui) {
+    constructor(gui,titleGui, sombreado) {
       super();
       
       // Se crea la parte de la interfaz que corresponde a la caja
