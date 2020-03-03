@@ -1,6 +1,6 @@
  
 class MyBox extends THREE.Object3D {
-  constructor(gui,titleGui) {
+  constructor(gui,titleGui, _material) {
     super();
     
     // Se crea la parte de la interfaz que corresponde a la caja
@@ -10,12 +10,9 @@ class MyBox extends THREE.Object3D {
     // Un Mesh se compone de geometría y material
     var boxGeom = new THREE.BoxGeometry (1,1,1);
     // Como material se crea uno a partir de un color
-    var boxMat = new THREE.MeshNormalMaterial();
-    boxMat.flatShading = true;
-    boxMat.needsUpdate = true;
     
     // Ya podemos construir el Mesh
-    var box = new THREE.Mesh (boxGeom, boxMat);
+    var box = new THREE.Mesh (boxGeom, _material);
     // Y añadirlo como hijo del Object3D (el this)
     this.add (box);
     

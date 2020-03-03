@@ -1,5 +1,5 @@
 class MyIcosah extends THREE.Object3D {
-    constructor(gui,titleGui, sombreado) {
+    constructor(gui,titleGui, _material) {
       super();
       
       // Se crea la parte de la interfaz que corresponde a la caja
@@ -8,13 +8,9 @@ class MyIcosah extends THREE.Object3D {
       
       // Un Mesh se compone de geometría y material
       var Geom = new THREE.IcosahedronGeometry(1,0);
-      // Como material se crea uno a partir de un color
-      var Mat = new THREE.MeshNormalMaterial();
-      Mat.flatShading = true;
-      Mat.needsUpdate = true;
       
       // Ya podemos construir el Mesh
-      this.icosah = new THREE.Mesh (Geom, Mat);
+      this.icosah = new THREE.Mesh (Geom, _material);
       // Y añadirlo como hijo del Object3D (el this)
       this.add (this.icosah);
       
@@ -37,6 +33,7 @@ class MyIcosah extends THREE.Object3D {
         this.reset = function () {
             this.radio = 1.0;
             this.detalle = 0.0;
+            that.icosah.geometry = new THREE.IcosahedronGeometry(this.radio, this.detalle);
           
         }
       } 

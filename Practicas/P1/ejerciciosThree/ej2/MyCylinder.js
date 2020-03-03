@@ -1,5 +1,5 @@
 class MyCylinder extends THREE.Object3D {
-    constructor(gui,titleGui) {
+    constructor(gui,titleGui, _material) {
       super();
       
       // Se crea la parte de la interfaz que corresponde a la caja
@@ -8,14 +8,10 @@ class MyCylinder extends THREE.Object3D {
       
       // Un Mesh se compone de geometría y material
       var cylinderGeom = new THREE.CylinderGeometry(1,1, 1,3);
-      // Como material se crea uno a partir de un color
-      var cylinderMat = new THREE.MeshNormalMaterial();
-      cylinderMat.flatShading = true;
-      cylinderMat.needsUpdate = true;
       
       
       // Ya podemos construir el Mesh
-      this.cilindro = new THREE.Mesh (cylinderGeom, cylinderMat);
+      this.cilindro = new THREE.Mesh (cylinderGeom, _material);
       // Y añadirlo como hijo del Object3D (el this)
       this.add (this.cilindro);
       
@@ -41,6 +37,7 @@ class MyCylinder extends THREE.Object3D {
             this.radioInf = 1.0;
             this.altura = 1.0;
             this.numSegmentos = 3.0;
+            that.cilindro.geometry = new THREE.CylinderGeometry(this.radioSup, this.radioInf, this.altura, this.numSegmentos);
           
         }
       } 

@@ -1,5 +1,5 @@
 class MyCone extends THREE.Object3D {
-    constructor(gui,titleGui) {
+    constructor(gui,titleGui, _material) {
       super();
       
       // Se crea la parte de la interfaz que corresponde a la caja
@@ -8,13 +8,10 @@ class MyCone extends THREE.Object3D {
       
       // Un Mesh se compone de geometría y material
       var coneGeom = new THREE.ConeGeometry(1,1,3);
-      // Como material se crea uno a partir de un color
-      var coneMat = new THREE.MeshNormalMaterial();
-      coneMat.flatShading = true;
-      coneMat.needsUpdate = true;
+    
       
       // Ya podemos construir el Mesh
-      this.cone = new THREE.Mesh (coneGeom, coneMat);
+      this.cone = new THREE.Mesh (coneGeom, _material);
       // Y añadirlo como hijo del Object3D (el this)
       this.add (this.cone);
       
@@ -38,6 +35,7 @@ class MyCone extends THREE.Object3D {
             this.radio = 1.0;
             this.altura = 1.0;
             this.numSegmentos = 3.0;
+            that.cone.geometry = new THREE.ConeGeometry(this.radio, this.altura, this.numSegmentos);
           
         }
       } 

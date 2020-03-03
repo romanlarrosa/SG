@@ -1,5 +1,5 @@
 class MySphere extends THREE.Object3D {
-    constructor(gui,titleGui) {
+    constructor(gui,titleGui, _material) {
       super();
       
       // Se crea la parte de la interfaz que corresponde a la caja
@@ -9,12 +9,9 @@ class MySphere extends THREE.Object3D {
       // Un Mesh se compone de geometría y material
       var Geom = new THREE.SphereGeometry(1,3,2);
       // Como material se crea uno a partir de un color
-      var Mat = new THREE.MeshNormalMaterial();
-      Mat.flatShading = true;
-      Mat.needsUpdate = true;
       
       // Ya podemos construir el Mesh
-      this.esfera = new THREE.Mesh (Geom, Mat);
+      this.esfera = new THREE.Mesh (Geom, _material);
       // Y añadirlo como hijo del Object3D (el this)
       this.add (this.esfera);
       
@@ -38,6 +35,7 @@ class MySphere extends THREE.Object3D {
             this.radio = 1.0;
             this.resEcuador = 3.0;
             this.resMeridiano = 2.0;
+            that.esfera.geometry = new THREE.SphereGeometry(this.radio, this.resEcuador, this.resMeridiano);
           
         }
       } 

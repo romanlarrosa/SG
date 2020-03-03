@@ -40,62 +40,6 @@ class MyScene extends THREE.Scene {
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     //Ademas creamos unos ejes auxiliares para la caja
 
-    //CAJA
-
-    this.ejesCaja = new THREE.AxesHelper(3);
-    this.model = new MyBox(this.gui, "Controles de la Caja", this.Mat);
-    //Añadimos la caja a los ejes auxiliares, y los ejes auxiliares con la caja, a la escena
-    this.ejesCaja.add(this.model);
-    this.add (this.ejesCaja);
-
-    this.ejesCaja.position.set(-10, 10, 0);
-
-    //ESFERA
-        
-        this.ejesEsfera = new THREE.AxesHelper(3);
-        this.esfera = new MySphere(this.gui, "Controles esfera", this.Mat);
-        this.ejesEsfera.add(this.esfera);
-        this.add (this.ejesEsfera);
-
-        this.ejesEsfera.position.set(-10, 0, 0);
-
-
-    //CONO
-
-    this.ejesCono = new THREE.AxesHelper(3);
-    this.cono = new MyCone(this.gui, "Controles cono", this.Mat);
-    this.ejesCono.add(this.cono);
-    this.add (this.ejesCono);
-
-    this.ejesCono.position.set(0, 10, 0);
-
-    //CILINDRO
-    this.ejesCilindro = new THREE.AxesHelper(3);
-    this.cilindro = new MyCylinder(this.gui, "Controles cilindro", this.Mat);
-    this.ejesCilindro.add(this.cilindro);
-    this.add (this.ejesCilindro);
-
-    this.ejesCilindro.position.set(10, 10, 0);
-
-    
-
-    //TORUS
-    this.ejesTorus = new THREE.AxesHelper(3);
-    this.torus = new MyTorus(this.gui, "Controles toro", this.Mat);
-    this.ejesTorus.add(this.torus);
-    this.add (this.ejesTorus);
-
-    this.ejesTorus.position.set(-0, 0, 0);
-
-    //ICOSAEDRO
-    this.ejesIcosa = new THREE.AxesHelper(3);
-    this.icosa = new MyIcosah(this.gui, "Controles icosaedro", this.Mat);
-    this.ejesIcosa.add(this.icosa);
-    this.add (this.ejesIcosa);
-
-    this.ejesIcosa.position.set(10, 0, 0);
-    
-    
   }
   
   createCamera () {
@@ -231,12 +175,7 @@ class MyScene extends THREE.Scene {
     this.cameraControl.update();
     
     // Se actualiza el resto del modelo
-    this.model.update();
-    this.cono.update();
-    this.cilindro.update();
-    this.esfera.update();
-    this.torus.update();
-    this.icosa.update();
+    
 
     //Sombreado
     
