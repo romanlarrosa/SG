@@ -144,8 +144,7 @@ class MyScene extends THREE.Scene {
     var folder1 = gui.addFolder('Parametros Revolución');
     folder1.add (this.guiControls, 'resolucion', 3, 15, 1.0).name(' Resolucion : ').listen().onChange(function(value) {
       //Cambian las dos resoluciones
-      var Geom = new THREE.LatheGeometry(_puntos, that.guiControls.resolucion, 0, that.guiControls.angulo);
-      that.peon1.Obj.geometry = Geom;
+      peon1.update(value, this.guiControls.angulo);
     });
     folder1.add (this.guiControls, 'angulo', 1, 2*Math.PI, 0.1).name(' Ángulo : ').listen();
     
