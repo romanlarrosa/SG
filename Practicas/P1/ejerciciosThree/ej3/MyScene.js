@@ -57,20 +57,19 @@ class MyScene extends THREE.Scene {
 
     //Añadimos el objeto 1
     this.peon1 = new ObjRevol(this.gui, "Controles Peon", this.puntos, this.Mat);
-    this.ejesPeon1 = new THREE.AxisHelper(4);
-    this.ejesPeon1.add(this.peon1);
+
 
     //Ubicamos la linea en el modelo y la movemos
-    this.add(this.ejesPeon1);
+    this.add(this.peon1);
 
     //Añadimos el peon2 (Solo cambia la resolucion)
     this.peon2 = new ObjRevol(this.gui, "Controles Peon2", this.puntos, this.Mat);
-    this.ejesPeon2 = new THREE.AxisHelper(4);
-    this.ejesPeon2.add(this.peon2);
+
 
     //Ubicamos la linea en el modelo y la movemos
-    this.add(this.ejesPeon2);
-    this.ejesPeon2.position.set(5, 0, 0);
+    this.add(this.peon2);
+    this.peon2.position.set(5, 0, 0);
+    this.peon2.Obj.geometry = new THREE.LatheGeometry(this.puntos, 3, 0, 2*Math.PI);
 
   }
 
@@ -120,6 +119,7 @@ class MyScene extends THREE.Scene {
     // La escena le va a añadir sus propios controles. 
     // Se definen mediante una   new function()
     // En este caso la intensidad de la luz y si se muestran o no los ejes
+    var that = this;
     this.guiControls = new function() {
       // En el contexto de una función   this   alude a la función
       this.lightIntensity = 0.5;
@@ -127,12 +127,18 @@ class MyScene extends THREE.Scene {
       this.sombreado = true;
       this.resolucion = 3;
       this.angulo = 1.0;
+      
+      this.reset = function () {
+        this.resolucion = 3;
+        this.angulo = 1.0;
+        that.peon1.Obj.geometry = new THREE.LatheGeometry(that.puntos, this.resolucion, 0, this.angulo);
+        that.peon2.Obj.geometry = new THREE.LatheGeometry(that.puntos, this.resolucion, 0, 2*Math.PI);
+      }
     }
 
     // Se crea una sección para los controles de esta clase
     var folder = gui.addFolder ('Luz y Ejes');
 
-    var that = this;
     gui.add(this.guiControls, 'sombreado').name('Sombreado : ').listen();
     
     // Se le añade un control para la intensidad de la luz
@@ -144,9 +150,14 @@ class MyScene extends THREE.Scene {
     var folder1 = gui.addFolder('Parametros Revolución');
     folder1.add (this.guiControls, 'resolucion', 3, 15, 1.0).name(' Resolucion : ').listen().onChange(function(value) {
       //Cambian las dos resoluciones
-      peon1.update(value, this.guiControls.angulo);
+        that.peon1.Obj.geometry = new THREE.LatheGeometry(that.puntos, this.resolucion, 0, this.angulo);
+        that.peon2.Obj.geometry = new THREE.LatheGeometry(that.puntos, this.resolucion, 0, 2*Math.PI);
+      
     });
-    folder1.add (this.guiControls, 'angulo', 1, 2*Math.PI, 0.1).name(' Ángulo : ').listen();
+    folder1.add (this.guiControls, 'angulo', 1, 2*Math.PI, 0.1).name(' Ángulo : ').listen().onChange(function(value) {
+        that.peon1.Obj.geometry = new THREE.LatheGeometry(that.puntos, this.resolucion, 0, this.angulo);
+    });
+    folder1.add (this.guiControls, 'reset').name(' RESET ').listen();
     
     return gui;
   }
