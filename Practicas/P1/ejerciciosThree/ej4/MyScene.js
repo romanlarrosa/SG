@@ -36,7 +36,19 @@ class MyScene extends THREE.Scene {
     
     
     // Por último creamos el modelo.
-    //Generamos el vector de puntos para el perfil del peon.
+    this.corazon = new Corazon(this.gui, "Controles Corazon"); 
+    this.add(this.corazon);
+    this.corazon.scale.set(0.2, 0.2, 0.2);
+    this.corazon.position.set(4, -4, 0);
+
+    this.diamante = new Diamante(this.gui, "Controles Diamante"); 
+    this.add(this.diamante);
+    this.diamante.scale.set(0.4, 0.4, 0.2);
+    this.diamante.position.set(-4, 4, 0);
+
+    this.prueba = new Pie(this.gui, "prueba", this.Mat);
+    this.add(this.prueba);
+    
     
 
   }
@@ -49,7 +61,7 @@ class MyScene extends THREE.Scene {
     //   Los planos de recorte cercano y lejano
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     // También se indica dónde se coloca
-    this.camera.position.set (20, 10, 20);
+    this.camera.position.set (0, 0, 20);
     // Y hacia dónde mira
     var look = new THREE.Vector3 (0,0,0);
     this.camera.lookAt(look);
@@ -77,6 +89,7 @@ class MyScene extends THREE.Scene {
       this.lightIntensity = 0.5;
       this.axisOnOff = true;
       this.sombreado = true;
+      this.animacion = true;
       
     }
 
@@ -91,6 +104,7 @@ class MyScene extends THREE.Scene {
     
     // Y otro para mostrar u ocultar los ejes
     folder.add (this.guiControls, 'axisOnOff').name ('Mostrar ejes : ');
+    gui.add(this.guiControls, 'animacion');
 
     
     return gui;
@@ -178,6 +192,11 @@ class MyScene extends THREE.Scene {
     
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
+
+    if(this.guiControls.animacion){
+      this.corazon.update();
+      this.diamante.update();
+    }
   }
 
 }

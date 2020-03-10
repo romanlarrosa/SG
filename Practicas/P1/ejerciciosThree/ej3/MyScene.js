@@ -33,6 +33,7 @@ class MyScene extends THREE.Scene {
     this.Mat = new THREE.MeshNormalMaterial();
     this.Mat.flatShading = this.guiControls.sombreado;
     this.Mat.needsUpdate = true;
+    this.Mat.side = THREE.DoubleSide;
     
     
     // Por último creamos el modelo.
@@ -130,7 +131,7 @@ class MyScene extends THREE.Scene {
       
       this.reset = function () {
         this.resolucion = 3;
-        this.angulo = 1.0;
+        this.angulo = 15.0;
         that.peon1.Obj.geometry = new THREE.LatheGeometry(that.puntos, this.resolucion, 0, this.angulo);
         that.peon2.Obj.geometry = new THREE.LatheGeometry(that.puntos, this.resolucion, 0, 2*Math.PI);
       }
@@ -150,12 +151,12 @@ class MyScene extends THREE.Scene {
     var folder1 = gui.addFolder('Parametros Revolución');
     folder1.add (this.guiControls, 'resolucion', 3, 15, 1.0).name(' Resolucion : ').listen().onChange(function(value) {
       //Cambian las dos resoluciones
-        that.peon1.Obj.geometry = new THREE.LatheGeometry(that.puntos, this.resolucion, 0, this.angulo);
-        that.peon2.Obj.geometry = new THREE.LatheGeometry(that.puntos, this.resolucion, 0, 2*Math.PI);
+        that.peon1.Obj.geometry = new THREE.LatheGeometry(that.puntos, value, 0, that.guiControls.angulo);
+        that.peon2.Obj.geometry = new THREE.LatheGeometry(that.puntos, value, 0, 2*Math.PI);
       
     });
     folder1.add (this.guiControls, 'angulo', 1, 2*Math.PI, 0.1).name(' Ángulo : ').listen().onChange(function(value) {
-        that.peon1.Obj.geometry = new THREE.LatheGeometry(that.puntos, this.resolucion, 0, this.angulo);
+        that.peon1.Obj.geometry = new THREE.LatheGeometry(that.puntos, that.guiControls.resolucion, 0, value);
     });
     folder1.add (this.guiControls, 'reset').name(' RESET ').listen();
     

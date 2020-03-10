@@ -1,4 +1,4 @@
-class Corazon extends THREE.Object3D {
+class Diamante extends THREE.Object3D {
     constructor(gui, titleGui) {
         super();
 
@@ -6,17 +6,14 @@ class Corazon extends THREE.Object3D {
         this.Mat = new THREE.MeshNormalMaterial();
         this.Mat.flatShading = true;
         this.Mat.needsUpdate = true;
-        var x = 0, y = 0;
 
-        var heartShape = new THREE.Shape();
+        var diamondShape = new THREE.Shape();
 
-        heartShape.moveTo( x + 5, y + 5 );
-        heartShape.bezierCurveTo( x + 5, y + 5, x + 4, y, x, y );
-        heartShape.bezierCurveTo( x - 6, y, x - 6, y + 7,x - 6, y + 7 );
-        heartShape.bezierCurveTo( x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19 );
-        heartShape.bezierCurveTo( x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7 );
-        heartShape.bezierCurveTo( x + 16, y + 7, x + 16, y, x + 10, y );
-        heartShape.bezierCurveTo( x + 7, y, x + 5, y + 5, x + 5, y + 5 );
+        diamondShape.moveTo(3,0 );
+        diamondShape.lineTo(0, 5);
+        diamondShape.lineTo(-3, 0);
+        diamondShape.lineTo(0, -5);
+        diamondShape.lineTo(3, 0);
 
         var extrudeSettings = {
           steps: 2,
@@ -28,11 +25,9 @@ class Corazon extends THREE.Object3D {
           bevelSegments: 1
         };
 
-        var geometry = new THREE.ExtrudeGeometry( heartShape, extrudeSettings );
+        var geometry = new THREE.ExtrudeGeometry( diamondShape, extrudeSettings );
         
         this.objeto = new THREE.Mesh( geometry, this.Mat ) ;
-        this.objeto.position.set(5, 10, -1);
-        this.objeto.rotation.z = Math.PI;
         this.add( this.objeto );
 
     }
