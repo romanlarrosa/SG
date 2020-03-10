@@ -19,6 +19,6 @@ class ObjRevol extends THREE.Object3D {
       // Después, la rotación en Y
       // Luego, la rotación en X
       // Y por último la traslación
-      this.Geom = new THREE.LatheGeometry(this.puntos, resolucion, 0, angulo);
+      
     }
 }
