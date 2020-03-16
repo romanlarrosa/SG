@@ -33,22 +33,44 @@ class MyScene extends THREE.Scene {
     this.Mat = new THREE.MeshNormalMaterial();
     this.Mat.flatShading = this.guiControls.sombreado;
     this.Mat.needsUpdate = true;
+
+    this.figuras = new THREE.Object3D();
     
     
     // Por último creamos el modelo.
     this.corazon = new Corazon(this.gui, "Controles Corazon"); 
-    this.add(this.corazon);
-    this.corazon.scale.set(0.2, 0.2, 0.2);
-    this.corazon.position.set(4, -4, 0);
-
-    this.diamante = new Diamante(this.gui, "Controles Diamante"); 
-    this.add(this.diamante);
-    this.diamante.scale.set(0.4, 0.4, 0.2);
-    this.diamante.position.set(-4, 4, 0);
-
-    this.prueba = new Pie(this.gui, "prueba", this.Mat);
-    this.add(this.prueba);
+    this.corazon_ = new THREE.Object3D();
+    this.corazon_.add(this.corazon);
+    this.corazon.scale.set(0.2,0.2,0.2);
+    this.corazon_.position.set(4, -4, 0);
+    this.figuras.add(this.corazon_);
     
+    
+    this.diamante = new Diamante(this.gui, "Controles Diamante");
+    this.diamante_ = new THREE.Object3D();
+    this.diamante_.add(this.diamante);
+    this.diamante.scale.set(0.4, 0.4, 0.2);
+    this.diamante_.position.set(-4, 4, 0);
+    this.figuras.add(this.diamante_);
+    
+
+    this.pica = new Pica(this.gui, "pica");
+    this.pica_ = new THREE.Object3D();
+    this.pica_.add(this.pica);
+    this.pica_.position.set(4, 4, 0);
+    this.figuras.add(this.pica_);
+    
+
+    this.trebol = new Trebol(this.gui, "trebol");
+    this.trebol_ = new THREE.Object3D();
+    this.trebol_.add(this.trebol);
+    this.trebol_.position.set(-4, -4, 0);
+    this.figuras.add(this.trebol_);
+   
+    
+    
+    
+    this.add(this.figuras);
     
 
   }
@@ -196,10 +218,31 @@ class MyScene extends THREE.Scene {
     if(this.guiControls.animacion){
       this.corazon.update();
       this.diamante.update();
+      this.pica.update();
+      this.trebol.update();
+
+      //Rotaciones
+      this.rotar();
     }
+
+  }
+
+  rotar(){
+    var alpha = 0.01;
+    //que roten todas
+    this.figuras.rotation.z += alpha;
+
+    //Que se corrija la rotacion de las figuras
+    this.corazon_.rotation.z -= alpha;
+    this.diamante_.rotation.z -= alpha;
+    this.trebol_.rotation.z -= alpha;
+    this.pica_.rotation.z -= alpha;
+
   }
 
 }
+
+
 
 
 /// La función   main
