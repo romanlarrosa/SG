@@ -67,10 +67,22 @@ class MyScene extends THREE.Scene {
     this.trebol_.position.set(-4, -4, 0);
     this.figuras.add(this.trebol_);
    
-    
-    
-    
     this.add(this.figuras);
+    
+    this.columna1 = new ColumnaCorazon(this.gui, "columna1");
+    this.columna1_ = new THREE.Object3D();
+    this.columna1_.add(this.columna1);
+    this.columna1_.position.x -= 12;
+    this.add(this.columna1_);
+
+
+    this.columna2 = new ColumnaTrebol(this.gui, "columna2");
+    this.columna2_ = new THREE.Object3D();
+    this.columna2_.add(this.columna2);
+    this.columna2_.position.x += 12;
+    this.add(this.columna2_);
+
+
     
 
   }
@@ -220,6 +232,8 @@ class MyScene extends THREE.Scene {
       this.diamante.update();
       this.pica.update();
       this.trebol.update();
+      this.columna1.update();
+      this.columna2.update();
 
       //Rotaciones
       this.rotar();
