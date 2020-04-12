@@ -2,7 +2,7 @@
 class Grapadora extends THREE.Object3D {
   constructor(gui,titleGui) {
     super();
-    
+     
     // Se crea la parte de la interfaz que corresponde a la grapadora
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
     this.createGUI(gui,titleGui);
