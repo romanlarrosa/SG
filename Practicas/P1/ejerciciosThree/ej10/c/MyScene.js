@@ -15,7 +15,6 @@ class MyScene extends THREE.Scene {
     this.gui = this.createGUI ();
      
     // Construimos los distinos elementos que tendremos en la escena
-    
     // Todo elemento que se desee sea tenido en cuenta en el renderizado de la escena debe pertenecer a esta. Bien como hijo de la escena (this en esta clase) o como hijo de un elemento que ya esté en la escena.
     // Tras crear cada elemento se añadirá a la escena con   this.add(variable)
     this.createLights ();
@@ -24,7 +23,7 @@ class MyScene extends THREE.Scene {
     this.createCamera ();
     
     // Un suelo 
-    // this.createGround ();
+    this.createGround ();
     
     // Y unos ejes. Imprescindibles para orientarnos sobre dónde están las cosas
     this.axis = new THREE.AxesHelper (5);
@@ -34,7 +33,7 @@ class MyScene extends THREE.Scene {
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
-    this.model = new Satelites(this.gui);
+    this.model = new Helicoide(this.gui);
     this.add (this.model);
   }
   
@@ -68,7 +67,7 @@ class MyScene extends THREE.Scene {
     var geometryGround = new THREE.BoxGeometry (50,0.2,50);
     
     // El material se hará con una textura de madera
-    var texture = new THREE.TextureLoader().load('../imgs/wood.jpg');
+    var texture = new THREE.TextureLoader().load('../../imgs/wood.jpg');
     var materialGround = new THREE.MeshPhongMaterial ({map: texture});
     
     // Ya se puede construir el Mesh
@@ -91,7 +90,7 @@ class MyScene extends THREE.Scene {
     // En este caso la intensidad de la luz y si se muestran o no los ejes
     this.guiControls = new function() {
       // En el contexto de una función   this   alude a la función
-      this.lightIntensity = 0.5;
+      this.lightIntensity = 1.0;
       this.axisOnOff = true;
     }
 
@@ -188,6 +187,7 @@ class MyScene extends THREE.Scene {
     
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
+    TWEEN.update();
   }
 }
 

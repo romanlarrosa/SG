@@ -17,18 +17,34 @@ class Satelites extends THREE.Object3D {
     //Amarillo
     this.MAmarillo = new THREE.MeshPhongMaterial({color: 0xE8D84D});
 
-    var texturaTierra = new THREE.TextureLoader().load('../imgs/tierra.jpg');
+    var texturaTierra = new THREE.TextureLoader().load('../../imgs/tierra.jpg');
     var materialTierra = new THREE.MeshPhongMaterial ({map: texturaTierra});
 
     var geomEsfera = new THREE.SphereGeometry(3.0, 20, 20);
 
-    var texturaCara = new THREE.TextureLoader().load('../imgs/cara.jpg');
+    var texturaCara = new THREE.TextureLoader().load('../../imgs/cara.jpg');
     var materialCara = new THREE.MeshPhongMaterial ({map: texturaCara});
 
+    this.satelites = new THREE.Object3D();
+
     this.tierra = new THREE.Mesh(geomEsfera, materialTierra);
-    this.add(this.tierra);
+    this.satelites.add(this.tierra);
+
+    this.sat = [];
+    for (let i = 0; i < 3; i++) {
+      var geomEsfera = new THREE.SphereGeometry(2, 20, 20);
+      this.sat.push(new THREE.Mesh(geomEsfera, materialCara));
+      this.sat[i].position.x += (i+1)*6;
+      this.satelites.add(this.sat[i]);
+    }
    
-    
+    this.add(this.satelites);
+    this.satelites.position.y +=3;
+
+      //Posicionamos al primer satelite mirando hacia la tierra
+    this.sat[0].rotation.y += Math.PI;
+      //Posicionamos el segundo satelite mirando en un primer momento a camara
+    this.sat[1].rotation.y -= Math.PI/4;
   }
   
   createGUI (gui) {
@@ -55,12 +71,13 @@ class Satelites extends THREE.Object3D {
 
   
   update () {
-    // Con independencia de cómo se escriban las 3 siguientes líneas, el orden en el que se aplican las transformaciones es:
-    // Primero, el escalado
-    // Segundo, la rotación en Z
-    // Después, la rotación en Y
-    // Luego, la rotación en X
-    // Y por último la traslación
+    //Todo gira
+    this.satelites.rotation.y += 0.01;
+    //El segundo satelite va contrarrestando la rotacion en general para mirar siempre a camara
+    this.sat[1].rotation.y -= 0.01;
+    //Cada vez que todo gira, el tercer satelite realiza una rotación sobre si mismo
+    this.sat[2].rotation.y += 0.01;
+    
     
 
   }
