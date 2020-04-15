@@ -16,15 +16,6 @@ class Elipse extends THREE.Object3D {
     var puntos = curva.getPoints( 50 );
 
     this.camino = new THREE.SplineCurve(puntos);
-    var points = this.camino.getPoints( 50 );
-var geometry = new THREE.BufferGeometry().setFromPoints( points );
-
-var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
-
-// Create the final object to add to the scene
-this.splineObject = new THREE.Line( geometry, material );
-
-this.add(this.splineObject);
 
     this.shape = new THREE.Shape(puntos);
     this.extrudeSettings = {
@@ -44,7 +35,13 @@ this.add(this.splineObject);
     this.esfera.position.x += 10;
     this.esfera.position.y += 1;
 
-    this.add(this.esfera);
+    this.esfera_ = new THREE.Object3D();
+    this.esfera_.add(this.esfera);
+    this.esfera_.rotation.x += Math.PI/2;
+    this.esfera_.position.y += 1;
+
+
+    this.add(this.esfera_);
 
     this.tiempoAnterior = Date.now();
     this.velocidad = Math.PI/2; //Rad/s
@@ -53,7 +50,7 @@ this.add(this.splineObject);
     var looptime = 20000;
     this.t = (time % looptime) / looptime;
 
-    //this.animarEsfera();
+    this.animarEsfera();
   }
   
   createGUI (gui) {
@@ -76,9 +73,8 @@ this.add(this.splineObject);
       that.camino = new THREE.SplineCurve(puntos);
 
       that.shape = new THREE.Shape(puntos);
-      that.splineObject.geometry = new THREE.BufferGeometry().setFromPoints( puntos );
-      //that.elipse.geometry = new THREE.ExtrudeBufferGeometry(that.shape, that.extrudeSettings);
-      //that.animarEsfera();
+      that.elipse.geometry = new THREE.ExtrudeBufferGeometry(that.shape, that.extrudeSettings);
+
     })
     // Estas lineas son las que añaden los componentes de la interfaz
     // Las tres cifras indican un valor mínimo, un máximo y el incremento
@@ -89,17 +85,18 @@ this.add(this.splineObject);
   }
 
   animarEsfera(){
-      var origen = {y: 0};
-      var destino = {y: 1};
+      var origen = {y: 0.0};
+      var destino = {y: 1.0};
       var that = this;
 
       var animacion = new TWEEN.Tween(origen)
-      .to(destino, 20000)
+      .to(destino, 4000)
       .yoyo(false)
       .easing(TWEEN.Easing.Linear.None)
       .repeat(Infinity)
       .onUpdate(function(){ 
-        var position = that.camino.getPointAt(this.t);
+        var position = that.camino.getPointAt(origen.y);
+        position.z = 0.0;
         that.esfera.position.copy(position);
       })
       .start();
@@ -107,6 +104,6 @@ this.add(this.splineObject);
 
   
   update () {
-    
+
   }
 }
