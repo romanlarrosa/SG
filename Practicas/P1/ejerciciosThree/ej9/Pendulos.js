@@ -77,6 +77,8 @@ class Pendulos extends THREE.Object3D {
     this.add(this.PPnodo);  
 
     this.tiempoAnterior = Date.now();
+    this.sentidoGiroPP = 1;
+    this.sentidoGiroPS = 1;
     
   }
   
@@ -131,17 +133,7 @@ class Pendulos extends THREE.Object3D {
 
     var folder3 = gui.addFolder ("Animación");
 
-    folder3.add (this.guiControls, 'activarPP').name ('Péndulo 1').listen().onChange(function(value){
-      that.animarPP();
-      if(value){
-        that.movimiento1PP.start();
-      }
-      else{
-        that.movimiento1PP.stop();
-        console.log("Apago la animacion");
-      }
-      
-    });
+    folder3.add (this.guiControls, 'activarPP').name ('Péndulo 1').listen();
     folder3.add (this.guiControls, 'velocidadPP', 0.0, 2.0, 0.1).name('Velocidad (rad/s)').listen();
     folder3.add (this.guiControls, 'activarPS').name ('Péndulo 2').listen();
     folder3.add (this.guiControls, 'velocidadPS', 0.0, 2.0, 0.1).name('Velocidad (rad/s)').listen();
@@ -149,28 +141,6 @@ class Pendulos extends THREE.Object3D {
     gui.add (this.guiControls, 'reset').name ('[ Reset ]');
   }
 
-  animarPP() {
-    var tiempoActual = Date.now();
-    var segundosTranscurridos = (tiempoActual - this.tiempoAnterior)/1000;
-    //Declarar la animacion del pendulo principal:
-    var that = this;
-    var origen2PP = {giro: Math.PI/4};
-    var movimiento2PP = new TWEEN.Tween(origen2PP)
-    .to({giro: -Math.PI/4}, 1000*(Math.PI/2)/that.guiControls.velocidadPP)
-    .easing(TWEEN.Easing.Quadratic.InOut)
-    .repeat(Infinity)
-    .yoyo (true)
-    .onUpdate(function() {that.guiControls.PPgiro = origen2PP.giro});
-
-    var origen1PP = {giro: this.guiControls.PPgiro};
-    this.movimiento1PP = new TWEEN.Tween(origen1PP)
-    .to({giro: Math.PI/4}, 1000*(Math.PI/4 - origen1PP.giro)/that.guiControls.velocidadPP)
-    .easing(TWEEN.Easing.Linear.None)
-    .onUpdate(function() {that.guiControls.PPgiro = origen1PP.giro})
-    .chain(movimiento2PP);
-
-    this.tiempoAnterior = tiempoActual;
-  }
   
   update () {
     // Con independencia de cómo se escriban las 3 siguientes líneas, el orden en el que se aplican las transformaciones es:
@@ -179,6 +149,35 @@ class Pendulos extends THREE.Object3D {
     // Después, la rotación en Y
     // Luego, la rotación en X
     // Y por último la traslación
+    var tiempoActual = Date.now();
+    var segundosTranscurridos = (tiempoActual - this.tiempoAnterior)/1000;
+    if (this.guiControls.activarPP) {
+      this.guiControls.PPgiro += this.guiControls.velocidadPP * segundosTranscurridos * this.sentidoGiroPP;
+      if (this.guiControls.PPgiro >= Math.PI/4){
+        this.guiControls.PPgiro = Math.PI/4;
+        this.sentidoGiroPP *= -1;
+      }
+      if (this.guiControls.PPgiro <= -Math.PI/4){
+        this.guiControls.PPgiro = -Math.PI/4;
+        this.sentidoGiroPP *= -1;
+      }
+    }
+
+    if (this.guiControls.activarPS) {
+      this.guiControls.PSgiro += this.guiControls.velocidadPS * segundosTranscurridos * this.sentidoGiroPS;
+      if (this.guiControls.PSgiro >= Math.PI/4){
+        this.guiControls.PSgiro = Math.PI/4;
+        this.sentidoGiroPS *= -1;
+      }
+      if (this.guiControls.PSgiro <= -Math.PI/4){
+        this.guiControls.PSgiro = -Math.PI/4;
+        this.sentidoGiroPS *= -1;
+      }
+    }
+
+      
+
+
     this.PPparteCentro.scale.y = 1*this.guiControls.PPlongitud;
     this.PPparteAbajo.position.y = -4 - 1*this.guiControls.PPlongitud;
 
@@ -187,6 +186,9 @@ class Pendulos extends THREE.Object3D {
 
     this.PSaux.rotation.z = this.guiControls.PSgiro;
     this.rotation.z = this.guiControls.PPgiro;
+
+
+    this.tiempoAnterior = tiempoActual;
 
   }
 }
