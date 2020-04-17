@@ -17,12 +17,12 @@ class Satelites extends THREE.Object3D {
     //Amarillo
     this.MAmarillo = new THREE.MeshPhongMaterial({color: 0xE8D84D});
 
-    var texturaTierra = new THREE.TextureLoader().load('../../imgs/tierra.jpg');
+    var texturaTierra = new THREE.TextureLoader().load('../imgs/tierra.jpg');
     var materialTierra = new THREE.MeshPhongMaterial ({map: texturaTierra});
 
     var geomEsfera = new THREE.SphereGeometry(3.0, 20, 20);
 
-    var texturaCara = new THREE.TextureLoader().load('../../imgs/cara.jpg');
+    var texturaCara = new THREE.TextureLoader().load('../imgs/cara.jpg');
     var materialCara = new THREE.MeshPhongMaterial ({map: texturaCara});
 
     this.satelites = new THREE.Object3D();
