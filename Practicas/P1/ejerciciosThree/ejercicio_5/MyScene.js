@@ -33,9 +33,19 @@ class MyScene extends THREE.Scene {
     this.Mat = new THREE.MeshNormalMaterial({wireframe:false});
     this.Mat.flatShading = this.guiControls.sombreado;
     this.Mat.needsUpdate = true;
-
+    
     this.taza = new Taza(this.gui, "Taza", this.Mat);
     this.add(this.taza);
+    this.taza.position.x -= 10;
+
+    this.pieza = new Pieza(this.gui, "Pieza", this.Mat);
+    this.add(this.pieza);
+    
+
+    this.tuerca = new Tuerca(this.gui, "Tuerca", this.Mat);
+    this.add(this.tuerca);
+    this.tuerca.position.x += 10;
+  
 
     
 
@@ -193,6 +203,8 @@ class MyScene extends THREE.Scene {
 
     if(this.guiControls.animacion){
       this.taza.update();
+      this.pieza.update();
+      this.tuerca.update();
     }
 
   }
